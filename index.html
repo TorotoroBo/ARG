@@ -1,44 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>AR.js A-Frame Location-based</title>
-<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js'></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'></script>
-<script>
-    const log = console.log;
-    window.onload = () => {
-      let scene = document.querySelector('a-scene'); /* Apply to whole scene */
+  <head>
+    <meta charset="utf-8" />
+    <title>Fotos en Realidad Aumentada</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  </head>
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          let gps = document.createAttribute('gps-entity-place'),
-            arjs = document.createAttribute('arjs'),
-            welcome = document.getElementById('welcome');
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="debugUIEnabled: false;"
+    >
+      <!-- Foto tuya en las coordenadas -->
+      <a-image
+        src="im1.png" 
+        gps-new-entity-place="latitude: -11.016141; longitude: -66.042912" 
+        rotation="-90 0 0"
+        scale="1 1 1"
+      >
+      </a-image>
 
-          arjs.value = 'sourceType: webcam; sourceWidth: 1280; sourceHeight: 960; trackingMethod: best; debugUIEnabled: false;';
-          gps.value = `latitude: ${position.coords.latitude - 0.001}; longitude: ${position.coords.longitude + 0.001}`;
-          log(gps.value);
-          scene.setAttributeNode(gps); /* Apply to whole scene */
-          scene.setAttributeNode(arjs);
-        });
-      }
-
-    };
-  </script>
-</head>
-<body>
-<a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
-    <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-    <a-image
-            src="img1.png"
-            look-at="[gps-camera]"
-            scale="5 5 5"
-            gps-entity-place="latitude: -11.016141; longitude:  -66.042912;"
-        ></a-image>
-    
-       <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: -11.016141; longitude: -66.042912" scale="10 10 10"></a-entity>
-</a-scene>
-</body>
+      <a-camera gps-camera rotation-reader></a-camera>
+    </a-scene>
+  </body>
 </html>
 
