@@ -11,8 +11,16 @@ function addImageAtLocation(name, latitude, longitude, image) {
     entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
     entity.setAttribute('name', name);
     entity.setAttribute('src', image);
-    entity.setAttribute('scale', '1 1 1');
-    entity.setAttribute('look-at', '[gps-camera]');
+    entity.setAttribute('scale', '5 5 5'); // Aumentamos la escala para que la imagen sea más grande
+    entity.setAttribute('position', '0 2.5 0'); // Elevamos la imagen 2.5 metros sobre el suelo
+    entity.setAttribute('look-at', '[gps-camera]'); // Hace que la imagen siempre mire hacia la cámara
+    entity.setAttribute('rotation', '0 0 0'); // Asegura que la imagen esté vertical
+
+    // Agregamos un evento para asegurarnos de que la imagen siempre mire a la cámara
+    entity.addEventListener('loaded', () => {
+        window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+    });
+
     document.querySelector('a-scene').appendChild(entity);
 }
 
