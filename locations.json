@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Ubicación 1",
+    "latitude": 40.7128,
+    "longitude": -74.0060,
+    "image": "img1.png"
+  },
+  {
+    "name": "Ubicación 2",
+    "latitude": 40.7129,
+    "longitude": -74.0061,
+    "image": "img2.png"
+  },
+  {
+    "name": "Ubicación 3",
+    "latitude": 40.7130,
+    "longitude": -74.0062,
+    "image": "img3.png"
+  }
+]
