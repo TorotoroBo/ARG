@@ -11,7 +11,7 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <style>
-      #distance-display {
+      #info-display {
         position: fixed;
         top: 10px;
         right: 10px;
@@ -26,7 +26,10 @@
   </head>
 
   <body style="margin: 0; overflow: hidden;">
-    <div id="distance-display">Distancia: -- m</div>
+    <div id="info-display">
+      <div>Imagen más cercana: --</div>
+      <div>Distancia: -- m</div>
+    </div>
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
@@ -76,15 +79,16 @@
 
       // Coordenadas de las imágenes
       const images = [
-        { id: 'image1', lat: -11.016141, lon: -66.042912 },
-        { id: 'image2', lat: -11.015547, lon: -66.043569 }
+        { id: 'image1', name: 'Imagen 1', lat: -11.016141, lon: -66.042912 },
+        { id: 'image2', name: 'Imagen 2', lat: -11.015547, lon: -66.043569 }
       ];
 
-      const distanceDisplay = document.getElementById('distance-display');
+      const infoDisplay = document.getElementById('info-display');
 
       // Obtener la posición actual y actualizar la visibilidad de las imágenes
       function updateImagesVisibility(position) {
         let minDistance = Infinity;
+        let nearestImage = null;
         
         images.forEach(image => {
           const distance = calculateDistance(
@@ -96,6 +100,7 @@
 
           if (distance < minDistance) {
             minDistance = distance;
+            nearestImage = image;
           }
 
           const imageElement = document.getElementById(image.id);
@@ -106,14 +111,17 @@
           }
         });
 
-        // Actualizar el display de distancia
-        distanceDisplay.textContent = `Distancia: ${minDistance.toFixed(2)} m`;
+        // Actualizar el display de información
+        infoDisplay.innerHTML = `
+          <div>Imagen más cercana: ${nearestImage ? nearestImage.name : '--'}</div>
+          <div>Distancia: ${minDistance.toFixed(2)} m</div>
+        `;
       }
 
       // Manejar errores de geolocalización
       function handleLocationError(error) {
         console.warn(`ERROR(${error.code}): ${error.message}`);
-        distanceDisplay.textContent = 'Error de geolocalización';
+        infoDisplay.innerHTML = '<div>Error de geolocalización</div>';
       }
 
       // Configurar la actualización de la posición
@@ -125,7 +133,7 @@
         });
       } else {
         console.log("Geolocation is not supported by this browser.");
-        distanceDisplay.textContent = 'Geolocalización no soportada';
+        infoDisplay.innerHTML = '<div>Geolocalización no soportada</div>';
       }
     </script>
   </body>
